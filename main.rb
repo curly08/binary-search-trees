@@ -9,5 +9,17 @@ class Node
   end
 end
 
-new_node = Node.new('cat')
-p new_node
+# Tree class
+class Tree
+  def initialize(arr)
+    @arr = arr
+    @root = build_tree
+  end
+
+  def build_tree
+
+  end
+end
+
+tree = Tree.new([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324])
+p tree
