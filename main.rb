@@ -11,13 +11,24 @@ end
 
 # Tree class
 class Tree
+  attr_reader :arr, :root
+
   def initialize(arr)
-    @arr = arr
-    @root = build_tree
+    @arr = arr.sort.uniq
+    @root = build_tree(@arr)
   end
 
-  def build_tree
+  # takes an array of data and turns it into a balanced binary tree full of Node objects appropriately placed
+  def build_tree(arr)
+    # base case
+    
+    # get the middle of the array and make it the root
+    root = arr[arr.size / 2]
+    # recursively, do the same for the left half and right half
 
+
+    # return the level-0 root node
+    return root
   end
 end
 
