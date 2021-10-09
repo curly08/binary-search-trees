@@ -39,12 +39,24 @@ class Tree
   end
 
   # accepts a value to insert
-  # def insert(value)
-  #   node = @root
-  #   if value > node.data
-  #     node = node.right_children
-  #   until value.between?(node.data, node)
-  #     node = node.
+  def insert(value)
+    node = @root
+    until node.left == nil && node.right == nil
+      if value > node.data
+        node.right == nil ? node = node.left : node = node.right 
+      elsif value < node.data
+        node.left == nil ? node = node.right : node = node.left
+      else
+        return
+      end
+    end
+
+    if value > node.data
+      node.right = Node.new(value)
+    elsif value < node.data
+      node.left = Node.new(value)
+    end
+  end
 
   # accepts a value to delete
 
@@ -55,8 +67,17 @@ class Tree
   end
 end
 
-# binding.pry
-
 tree = Tree.new([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324])
 puts tree.arr.join(', ')
 tree.pretty_print
+
+tree.insert(2)
+# binding.pry
+
+tree.insert(33)
+tree.insert(12)
+tree.insert(323)
+tree.insert(3)
+
+tree.pretty_print
+
