@@ -55,16 +55,30 @@ class Tree
 
   # accepts a value to delete
   def delete(value, node = @root)
-    # until node.data == value
-    #   return "#{value} does not exist!" if node.left == nil && node.right == nil && node.data != value
-    #   if value > node.data
-    #     node.right == nil ? node = node.left : node = node.right
-    #   else
-    #     node.left == nil ? node = node.right : node = node.left
-    #   end
-    # end
-    # if value > node.data
-    #   node =
+    # 3 base cases
+    if value == node.data
+      return node = nil if node.left.nil? && node.right.nil? # if node to delete is leaf, just delete it
+
+      if node.left.nil? || node.right.nil? && !(node.left.nil? && node.right.nil?) # if node has 1 child, reassign child to parent child
+        return node = node.left if node.right.nil?
+        return node = node.right if node.left.nil?
+      end
+
+      unless node.left.nil? || node.right.nil? # if node has two children, node = next biggest (right, then furthest left)
+        temp = node.clone
+        temp = temp.right
+        temp = temp.left until temp.left.nil?
+        node.data = temp.data
+        node.right = delete(temp.data, node.right)
+      end
+    elsif value > node.data
+      node.right = delete(value, node.right)
+    elsif value < node.data
+      node.left = delete(value, node.left)
+    else
+      node
+    end
+    node
   end
 
   def pretty_print(node = @root, prefix = '', is_left = true)
@@ -79,7 +93,11 @@ puts tree.sorted_arr.join(', ')
 tree.pretty_print
 tree.insert(10)
 tree.insert(11)
-tree.insert(13)
-tree.insert(2)
-
+tree.insert(-1)
+tree.pretty_print
+tree.delete(67)
+tree.delete(8)
+tree.delete(9)
+tree.delete(4)
+tree.delete(324)
 tree.pretty_print
