@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'pry-byebug'
 
 # Node class
@@ -24,38 +26,30 @@ class Tree
 
   # takes an array of data and turns it into a balanced binary tree full of Node objects appropriately placed
   def build_tree(arr)
-    if arr.empty? # base case
-      return
-    else
-      # get the middle of the array and make it the root
-      mid = arr.size / 2
-      root = Node.new(arr[mid])
-      # recursively, do the same for the left half and right half
-      root.left = build_tree(arr[0...mid])
-      root.right = build_tree(arr[(mid + 1)..])
-    end
-    # return the level-0 root node
-    return root
+    return if arr.empty? # base case
+
+    # get the middle of the array and make it the root
+    mid = arr.size / 2
+    root = Node.new(arr[mid])
+    # recursively, do the same for the left half and right half
+    root.left = build_tree(arr[0...mid])
+    root.right = build_tree(arr[(mid + 1)..-1])
+    root # return the level-0 root node
   end
 
   # accepts a value to insert
   def insert(value, node = @root)
-    if node.left == nil && node.right == nil # base case
-      if value > node.data
-        return node.right = Node.new(value)
-      elsif value < node.data
-        return node.left = Node.new(value)
-      else
-        return node
-      end
-    else # recurse
-      if value > node.data
-        node.right == nil ? insert(value, node.left) : insert(value, node.right)
-      elsif value < node.data
-        node.left == nil ? insert(value, node.right) : insert(value, node.left)
-      else
-        return
-      end
+    if node.left.nil? && node.right.nil? # base case
+      return node.right = Node.new(value) if value > node.data
+      return node.left = Node.new(value) if value < node.data
+
+      node
+    elsif value > node.data
+      node.right.nil? ? insert(value, node.left) : insert(value, node.right)
+    elsif value < node.data
+      node.left.nil? ? insert(value, node.right) : insert(value, node.left)
+    else
+      node
     end
   end
 
@@ -64,15 +58,13 @@ class Tree
     # until node.data == value
     #   return "#{value} does not exist!" if node.left == nil && node.right == nil && node.data != value
     #   if value > node.data
-    #     node.right == nil ? node = node.left : node = node.right 
+    #     node.right == nil ? node = node.left : node = node.right
     #   else
     #     node.left == nil ? node = node.right : node = node.left
     #   end
     # end
     # if value > node.data
-    #   node = 
-
-    
+    #   node =
   end
 
   def pretty_print(node = @root, prefix = '', is_left = true)
