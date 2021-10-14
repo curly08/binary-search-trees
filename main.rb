@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'pry-byebug'
-
 # Node class
 class Node
   include Comparable
@@ -173,7 +171,7 @@ class Tree
   def rebalance
     return self if balanced?
 
-    @root = build_tree(self.level_order_recursion.uniq.sort)
+    @root = build_tree(level_order_recursion.uniq.sort)
   end
 
   def pretty_print(node = @root, prefix = '', is_left = true)
@@ -183,34 +181,25 @@ class Tree
   end
 end
 
-tree = Tree.new([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324])
-puts tree.sorted_arr.join(', ')
+# test script
+tree = Tree.new(Array.new(15) { rand(1..100) })
 tree.pretty_print
-tree.insert(10)
-tree.insert(200)
-tree.insert(2040)
-tree.insert(20)
+p tree.balanced?
+p tree.level_order_recursion
+p tree.preorder
+p tree.inorder
+p tree.postorder
+tree.insert(rand(100..200))
+tree.insert(rand(100..200))
+tree.insert(rand(100..200))
+tree.insert(rand(100..200))
+tree.insert(rand(100..200))
 tree.pretty_print
-
-# tree.delete(67)
-# tree.delete(8)
-# tree.delete(9)
-# tree.delete(4)
-# tree.delete(324)
-# binding.pry
-# p tree.find(6)
-# p tree.find(2)
-# p tree.level_order_iteration
-# p tree.level_order_recursion
-# p tree.inorder
-# p tree.preorder
-# p tree.postorder
-# p tree.height(8)
-# p tree.height(9)
-# p tree.depth(100)
-# p tree.depth(7)
-# binding.pry
-# p tree.balanced?
+p tree.balanced?
 tree.rebalance
-
 tree.pretty_print
+p tree.balanced?
+p tree.level_order_recursion
+p tree.preorder
+p tree.inorder
+p tree.postorder
