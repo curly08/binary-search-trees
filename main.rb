@@ -145,6 +145,14 @@ class Tree
     results
   end
 
+  # accepts a node and returns its height
+  def height(value)
+    root = value.is_a?(Integer) ? find(value) : value
+    return -1 if root.nil?
+
+    [height(root.left), height(root.right)].max + 1
+  end
+
   def pretty_print(node = @root, prefix = '', is_left = true)
     pretty_print(node.right, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right
     puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.data}"
@@ -155,7 +163,6 @@ end
 tree = Tree.new([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324])
 puts tree.sorted_arr.join(', ')
 tree.pretty_print
-# tree.insert(10)
 # tree.insert(11)
 # tree.insert(-1)
 # tree.pretty_print
@@ -170,6 +177,8 @@ tree.pretty_print
 # p tree.find(2)
 # p tree.level_order_iteration
 # p tree.level_order_recursion
-p tree.inorder
-p tree.preorder
-p tree.postorder
+# p tree.inorder
+# p tree.preorder
+# p tree.postorder
+p tree.height(8)
+p tree.height(9)
