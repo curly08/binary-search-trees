@@ -115,6 +115,36 @@ class Tree
     results
   end
 
+  # returns an array of values using inorder depth-first traversal
+  def inorder(node = @root, results = [])
+    return results.push(node.data) if node.left.nil?
+
+    inorder(node.left, results)
+    results.push(node.data)
+    inorder(node.right, results) unless node.right.nil?
+    results
+  end
+
+  # returns an array of values using preorder depth-first traversal
+  def preorder(node = @root, results = [])
+    return results.push(node.data) if node.left.nil?
+
+    results.push(node.data)
+    preorder(node.left, results)
+    preorder(node.right, results) unless node.right.nil?
+    results
+  end
+
+  # returns an array of values using postorder depth-first traversal
+  def postorder(node = @root, results = [])
+    return results.push(node.data) if node.left.nil?
+
+    postorder(node.left, results)
+    postorder(node.right, results) unless node.right.nil?
+    results.push(node.data)
+    results
+  end
+
   def pretty_print(node = @root, prefix = '', is_left = true)
     pretty_print(node.right, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right
     puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.data}"
@@ -138,5 +168,8 @@ tree.pretty_print
 # binding.pry
 # p tree.find(6)
 # p tree.find(2)
-p tree.level_order_iteration
-p tree.level_order_recursion
+# p tree.level_order_iteration
+# p tree.level_order_recursion
+p tree.inorder
+p tree.preorder
+p tree.postorder
