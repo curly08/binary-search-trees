@@ -81,6 +81,20 @@ class Tree
     node
   end
 
+  # accepts a value and returns the notde with the given value
+  def find(value, node = @root)
+    if value == node.data
+      node
+    elsif value != node.data && node.left.nil? && node.right.nil?
+      return nil
+    elsif value > node.data
+      node = find(value, node.right)
+    else
+      node = find(value, node.left)
+    end
+    node
+  end
+
   def pretty_print(node = @root, prefix = '', is_left = true)
     pretty_print(node.right, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right
     puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.data}"
@@ -91,13 +105,16 @@ end
 tree = Tree.new([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324])
 puts tree.sorted_arr.join(', ')
 tree.pretty_print
-tree.insert(10)
-tree.insert(11)
-tree.insert(-1)
-tree.pretty_print
-tree.delete(67)
-tree.delete(8)
-tree.delete(9)
-tree.delete(4)
-tree.delete(324)
-tree.pretty_print
+# tree.insert(10)
+# tree.insert(11)
+# tree.insert(-1)
+# tree.pretty_print
+# tree.delete(67)
+# tree.delete(8)
+# tree.delete(9)
+# tree.delete(4)
+# tree.delete(324)
+# tree.pretty_print
+# binding.pry
+p tree.find(7)
+p tree.find(2)
