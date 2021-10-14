@@ -147,10 +147,18 @@ class Tree
 
   # accepts a node and returns its height
   def height(value)
-    root = value.is_a?(Integer) ? find(value) : value
-    return -1 if root.nil?
+    node = value.is_a?(Integer) ? find(value) : value
+    return -1 if node.nil?
 
-    [height(root.left), height(root.right)].max + 1
+    [height(node.left), height(node.right)].max + 1
+  end
+
+  # accepts a node and returns its depth
+  def depth(value, node = @root)
+    return nil if find(value).nil?
+    return 0 if value == node.data
+
+    value > node.data ? depth(value, node.right) + 1 : depth(value, node.left) + 1
   end
 
   def pretty_print(node = @root, prefix = '', is_left = true)
@@ -180,5 +188,7 @@ tree.pretty_print
 # p tree.inorder
 # p tree.preorder
 # p tree.postorder
-p tree.height(8)
-p tree.height(9)
+# p tree.height(8)
+# p tree.height(9)
+p tree.depth(100)
+p tree.depth(7)
