@@ -83,16 +83,36 @@ class Tree
 
   # accepts a value and returns the notde with the given value
   def find(value, node = @root)
-    if value == node.data
-      node
-    elsif value != node.data && node.left.nil? && node.right.nil?
-      return nil
-    elsif value > node.data
-      node = find(value, node.right)
-    else
-      node = find(value, node.left)
+    return node if node.nil? || value == node.data
+
+    value > node.data ? find(value, node.right) : find(value, node.left)
+  end
+
+  # returns an array of values using breadth-first traversal and iteration
+  def level_order_iteration
+    queue = []
+    results = []
+    node = @root
+    queue.push(node)
+    until queue.empty?
+      current = queue.first
+      results.push(current.data)
+      queue.push(current.left) unless current.left.nil?
+      queue.push(current.right) unless current.right.nil?
+      queue.shift
     end
-    node
+    results
+  end
+
+  # returns an array of values using breadth-first traversal and recursion
+  def level_order_recursion(node = @root, queue = [], results = [])
+    results.push(node.data)
+    queue.push(node.left) unless node.left.nil?
+    queue.push(node.right) unless node.right.nil?
+    return if queue.empty?
+
+    level_order_recursion(queue.shift, queue, results)
+    results
   end
 
   def pretty_print(node = @root, prefix = '', is_left = true)
@@ -116,5 +136,7 @@ tree.pretty_print
 # tree.delete(324)
 # tree.pretty_print
 # binding.pry
-p tree.find(7)
-p tree.find(2)
+# p tree.find(6)
+# p tree.find(2)
+p tree.level_order_iteration
+p tree.level_order_recursion
